@@ -24,7 +24,8 @@ namespace Serie1Pc
 
         public bool TryEnter(int key)
         {
+            return false;
         }
-        public bool TryEnter(int key)
-        {
-        }
+    }
+}
+        
