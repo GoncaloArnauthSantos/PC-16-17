@@ -1,1 +1,5 @@
-C:\Users\Goncalo Santos\Documents\ISEL 16-17 SV\PC Meu\Serie1Pc\Serie1Pc\obj\Debug\Serie1Pc.csprojResolveAssemblyReference.cache
+C:\Users\Goncalo Santos\Documents\ISEL 16-17 SV\PC Meu\Serie1Pc\Serie1Pc\bin\Debug\Serie1Pc.dll.config
+C:\Users\Goncalo Santos\Documents\ISEL 16-17 SV\PC Meu\Serie1Pc\Serie1Pc\bin\Debug\Serie1Pc.dll
+C:\Users\Goncalo Santos\Documents\ISEL 16-17 SV\PC Meu\Serie1Pc\Serie1Pc\bin\Debug\Serie1Pc.pdb
+C:\Users\Goncalo Santos\Documents\ISEL 16-17 SV\PC Meu\Serie1Pc\Serie1Pc\obj\Debug\Serie1Pc.dll
+C:\Users\Goncalo Santos\Documents\ISEL 16-17 SV\PC Meu\Serie1Pc\Serie1Pc\obj\Debug\Serie1Pc.pdb

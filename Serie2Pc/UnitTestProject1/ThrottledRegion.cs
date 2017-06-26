@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace Serie1Pc
+namespace Serie2Pc
 {
     public class ThrottledRegion
     {
@@ -25,7 +22,26 @@ namespace Serie1Pc
 
         public bool TryEnter(int key)
         {
+            MyRegion mr;
+            // fast path
+            if(  map.TryGetValue(key,out mr))
+            {
+                if( mr.maxWaiting == maxWaiting)
+                {
+                    int per;
+                    do
+                    {
+                        per = mr.permits;
+                        if (per == 0)
+                            break;
+                        if( Interlocked.CompareExchange(ref mr.permits, per - 1, per) == per)
+                            return true;
 
+                    } while (true);
+                }
+            }
+
+            // slow path
             lock (lockObj)
             {
                 // se não fizer parte do map adiciona
@@ -89,22 +105,34 @@ namespace Serie1Pc
         }
         public void Leave(int key)
         {
+            MyRegion region;
             lock (lockObj)
             {
-                if(!map.ContainsKey(key))
+                if (!map.ContainsKey(key))
                     throw new Exception("Doesn't exist any Region with this key");
 
-                MyRegion region = map[key];
+                region = map[key];
+            }
 
-                // caso tenha saido mas a regiao ainda tem espaço para mais
-                if (region.permits < maxInside)  
+            int m;
+            int per;
+            do
+            {
+                m = maxInside;
+                per = region.permits;
+                if(per < m)
                 {
-                    region.permits++;
-                    Monitor.PulseAll(lockObj);
-                    return;
+                    if (Interlocked.CompareExchange(ref region.permits, per+1, per) > per)
+                        break;
                 }
+                else
+                    throw new Exception("The Region doesn't permits more threads");
+            } while (true);
 
-                throw new Exception("The Region doesn't permits more threads");
+            lock (lockObj)
+            {
+                Monitor.PulseAll(lockObj);
+                return;
             }
         }
     }
